@@ -4,18 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New TIL | Admin</title>
+    <title>Create New Case Study | Admin</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <link href="{{ url_for('static', filename='vendor/quill.snow.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='vendor/quill.js') }}"></script>
     <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
         .form-container {
             max-width: 1000px;
-            /* Wider for editor */
             margin: 120px auto 60px;
             padding: 40px;
             background: var(--card-bg);
@@ -50,40 +67,45 @@
             border-color: var(--primary);
         }
 
-        /* SimpleMDE Dark Mode Overrides */
-        .editor-toolbar {
+        .editor-container {
+            margin-bottom: 1.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            /* Ensure toolbar/editor don't overflow rounded corners */
+        }
+
+        /* Quill Dark Mode Overrides */
+        .ql-toolbar {
             background-color: #1e293b;
-            border-color: rgba(255, 255, 255, 0.1);
-            color: #fff;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            border-top: none;
+            border-left: none;
+            border-right: none;
         }
 
-        .editor-toolbar a {
-            color: #fff !important;
-        }
-
-        .editor-toolbar a.active,
-        .editor-toolbar a:hover {
-            background-color: rgba(56, 189, 248, 0.1);
-            border-color: var(--primary);
-        }
-
-        .CodeMirror {
-            background-color: rgba(15, 23, 42, 0.6);
-            border-color: rgba(255, 255, 255, 0.1);
+        .ql-container {
+            border: none !important;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
             color: #f1f5f9;
         }
 
-        .CodeMirror-cursor {
-            border-left: 1px solid #fff;
-        }
-
-        .editor-preview {
-            background-color: #0f172a;
-            color: #f1f5f9;
-        }
-
-        .editor-statusbar {
+        .ql-editor.ql-blank::before {
             color: #94a3b8;
+            font-style: italic;
+        }
+
+        .ql-stroke {
+            stroke: #cbd5e1 !important;
+        }
+
+        .ql-fill {
+            fill: #cbd5e1 !important;
+        }
+
+        .ql-picker {
+            color: #cbd5e1 !important;
         }
 
         .btn-submit {
@@ -115,62 +137,132 @@
             <a href="{{ url_for('main.index') }}" class="logo">SP<span class="accent">.</span></a>
             <ul class="nav-links">
                 <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                <li><a href="{{ url_for('auth.logout') }}" style="color: #ef4444;">Logout</a></li>
+                <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('auth.logout') }}" class="btn-primary">Logout</a></li>
             </ul>
         </div>
     </nav>
 
     <main>
-        <div class="form-container">
-            <h1 class="section-title">Create Case Study</h1>
-            <form method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                <div class="form-group">
-                    <label for="title">Case Study Title</label>
-                    <input type="text" id="title" name="title" required
-                        placeholder="e.g. Migrating 40TB Data Warehouse to Lakehouse">
-                </div>
+        <section class="section">
+            <div class="container">
+                <div class="form-container">
+                    <h1 class="section-title">{% if case_study %}Edit Case Study{% else %}Create New Case Study{% endif
+                        %}</h1>
+                    <form method="POST"
+                        action="{{ url_for('admin.edit_case_study', id=case_study.id) if case_study else url_for('admin.create_case_study') }}"
+                        id="caseStudyForm">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
-                <div class="form-group">
-                    <label for="tags">Tags (comma separated)</label>
-                    <input type="text" id="tags" name="tags" placeholder="Migration, Databricks, Cost Optimization">
-                </div>
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" name="title"
+                                value="{{ case_study.title if case_study else '' }}" required>
+                        </div>
 
-                <div class="form-group">
-                    <label for="challenge">The Challenge</label>
-                    <textarea id="challenge" name="challenge" class="simple-textarea" rows="4"
-                        placeholder="What was the problem? (e.g. High latency, cost inefficiency...)"></textarea>
-                </div>
+                        <div class="form-group">
+                            <label for="tags">Tags (comma separated)</label>
+                            <input type="text" id="tags" name="tags"
+                                value="{{ case_study.tags | join(', ') if case_study and case_study.tags else '' }}"
+                                placeholder="e.g. Python, Spark, AWS">
+                        </div>
 
-                <div class="form-group">
-                    <label for="solution">The Solution</label>
-                    <textarea id="solution" name="solution" class="simple-textarea" rows="4"
-                        placeholder="How did you solve it? (Architecture, tech stack...)"></textarea>
-                </div>
+                        <div class="form-group">
+                            <label for="challenge">Challenge</label>
+                            <div class="editor-container">
+                                <div id="challenge-editor" style="height: 200px;">{{ case_study.challenge | safe if
+                                    case_study and case_study.challenge else '' }}</div>
+                            </div>
+                            <input type="hidden" name="challenge" id="challenge">
+                        </div>
 
-                <div class="form-group">
-                    <label for="impact">The Impact</label>
-                    <textarea id="impact" name="impact" class="simple-textarea" rows="4"
-                        placeholder="Quantifiable results (e.g. 50% cost reduction, 2x speedup...)"></textarea>
-                </div>
+                        <div class="form-group">
+                            <label for="solution">Solution</label>
+                            <div class="editor-container">
+                                <div id="solution-editor" style="height: 200px;">{{ case_study.solution | safe if
+                                    case_study
+                                    and case_study.solution else '' }}</div>
+                            </div>
+                            <input type="hidden" name="solution" id="solution">
+                        </div>
 
-                <div class="form-group">
-                    <label for="content">Additional Content / Diagrams</label>
-                    <textarea id="content" name="content"
-                        placeholder="Detailed walkthrough, diagrams, code snippets..."></textarea>
-                </div>
+                        <div class="form-group">
+                            <label for="impact">Impact</label>
+                            <div class="editor-container">
+                                <div id="impact-editor" style="height: 200px;">{{ case_study.impact | safe if case_study
+                                    and
+                                    case_study.impact else '' }}</div>
+                            </div>
+                            <input type="hidden" name="impact" id="impact">
+                        </div>
 
-                <button type="submit" class="btn-submit">Publish Case Study</button>
-            </form>
-        </div>
+                        <div class="form-group">
+                            <label for="content">Detailed Content</label>
+                            <div class="editor-container">
+                                <div id="content-editor" style="height: 400px;">{{ case_study.content | safe if
+                                    case_study
+                                    and case_study.content else '' }}</div>
+                            </div>
+                            <input type="hidden" name="content" id="content">
+                        </div>
+
+                        <button type="submit" class="btn-submit">{% if case_study %}Update Case Study{% else %}Publish
+                            Case Study{% endif %}</button>
+                    </form>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script>
-        var simplemde = new SimpleMDE({
-            element: document.getElementById("content"),
-            spellChecker: false,
-            placeholder: "Write your TIL in Markdown...",
-            toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "image", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof Quill === 'undefined') {
+                console.error('Quill library not loaded');
+                alert('Error: Text editor library failed to load. Please refresh the page.');
+                return;
+            }
+
+            var toolbarOptions = [
+                ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                ['blockquote', 'code-block'],
+
+                [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+                [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+                [{ 'direction': 'rtl' }],                         // text direction
+
+                [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+                [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+                [{ 'font': [] }],
+                [{ 'align': [] }],
+
+                ['clean'],                                         // remove formatting
+                ['link', 'image']
+            ];
+
+            var quillOptions = {
+                modules: {
+                    toolbar: toolbarOptions
+                },
+                theme: 'snow'
+            };
+
+            var challengeQuill = new Quill('#challenge-editor', quillOptions);
+            var solutionQuill = new Quill('#solution-editor', quillOptions);
+            var impactQuill = new Quill('#impact-editor', quillOptions);
+            var contentQuill = new Quill('#content-editor', quillOptions);
+
+            var form = document.getElementById('caseStudyForm');
+            form.onsubmit = function () {
+                // Populate hidden inputs with HTML content
+                document.getElementById('challenge').value = challengeQuill.root.innerHTML;
+                document.getElementById('solution').value = solutionQuill.root.innerHTML;
+                document.getElementById('impact').value = impactQuill.root.innerHTML;
+                document.getElementById('content').value = contentQuill.root.innerHTML;
+            };
         });
     </script>
 </body>

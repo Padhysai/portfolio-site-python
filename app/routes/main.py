@@ -23,6 +23,13 @@ def case_studies_page():
     case_studies = case_study_manager.get_all_case_studies()
     return render_template('case-studies.html', case_studies=case_studies)
 
+@main_bp.route('/case-study/<id>')
+def case_study_detail(id):
+    case_study = case_study_manager.get_case_study_by_id(id)
+    if not case_study:
+        return render_template('404.html'), 404
+    return render_template('case-study-detail.html', case_study=case_study)
+
 @main_bp.route('/sitemap.xml')
 def sitemap():
     case_studies = case_study_manager.get_all_case_studies()

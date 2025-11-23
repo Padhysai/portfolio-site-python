@@ -51,38 +51,29 @@
                         <div class="blog-content">
                             <div class="blog-meta">
                                 <span class="blog-date">{{ study.date }}</span>
-                                {% if study.tags %}
-                                <span class="blog-tag">{{ study.tags[0] }}</span>
-                                {% endif %}
                             </div>
                             <h3>{{ study.title }}</h3>
+
+                            {% if study.tags %}
+                            <div class="cs-tags"
+                                style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                {% for tag in study.tags %}
+                                <span class="blog-tag" style="margin-right: 0;">{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
 
                             <div class="case-study-sections">
                                 {% if study.challenge %}
                                 <div class="cs-section">
                                     <h4><i data-lucide="alert-circle"></i> Challenge</h4>
-                                    <p>{{ study.challenge }}</p>
-                                </div>
-                                {% endif %}
-
-                                {% if study.solution %}
-                                <div class="cs-section">
-                                    <h4><i data-lucide="check-circle"></i> Solution</h4>
-                                    <p>{{ study.solution }}</p>
-                                </div>
-                                {% endif %}
-
-                                {% if study.impact %}
-                                <div class="cs-section">
-                                    <h4><i data-lucide="trending-up"></i> Impact</h4>
-                                    <p>{{ study.impact }}</p>
+                                    <p>{{ study.challenge | striptags | truncate(100) }}...</p>
                                 </div>
                                 {% endif %}
                             </div>
 
-                            <div class="til-content">
-                                {{ study.content | safe }}
-                            </div>
+                            <a href="{{ url_for('main.case_study_detail', id=study.id) }}" class="read-more">View Case
+                                Study <i data-lucide="arrow-right"></i></a>
                         </div>
                     </article>
                     {% endfor %}
@@ -93,7 +84,8 @@
 
     <footer>
         <div class="container footer-content">
-            <p>&copy; <span id="year"></span> Sai Prasad Padhy. All rights reserved. <a href="{{ url_for('auth.login') }}"
+            <p>&copy; <span id="year"></span> Sai Prasad Padhy. All rights reserved. <a
+                    href="{{ url_for('auth.login') }}"
                     style="opacity: 0.3; font-size: 0.8rem; margin-left: 10px;">Admin</a></p>
             <div class="footer-socials">
                 <a href="#"><i data-lucide="linkedin"></i></a>
