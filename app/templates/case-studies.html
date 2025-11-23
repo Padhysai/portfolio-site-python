@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Case Studies | Sai Prasad Padhy</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="background-glow"></div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="{{ url_for('main.index') }}" class="logo">SP<span class="accent">.</span></a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.index') }}#about">About</a></li>
+                <li><a href="{{ url_for('main.index') }}#skills">Skills</a></li>
+                <li><a href="{{ url_for('main.index') }}#experience">Experience</a></li>
+                <li><a href="{{ url_for('main.case_studies_page') }}" class="active">Case Studies</a></li>
+                {% if session.get('logged_in') %}
+                <li><a href="{{ url_for('admin.dashboard') }}">Admin</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('static', filename='Sai_Prasad_Padhy_Resume.pdf') }}" class="btn-primary"
+                        download>Download Resume</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <h1 class="section-title">Project Case Studies</h1>
+                <p class="section-subtitle">Deep dives into complex data engineering problems and how I solved them.</p>
+
+                <div class="blog-grid">
+                    {% for study in case_studies %}
+                    <article class="blog-card case-study-card">
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">{{ study.date }}</span>
+                                {% if study.tags %}
+                                <span class="blog-tag">{{ study.tags[0] }}</span>
+                                {% endif %}
+                            </div>
+                            <h3>{{ study.title }}</h3>
+
+                            <div class="case-study-sections">
+                                {% if study.challenge %}
+                                <div class="cs-section">
+                                    <h4><i data-lucide="alert-circle"></i> Challenge</h4>
+                                    <p>{{ study.challenge }}</p>
+                                </div>
+                                {% endif %}
+
+                                {% if study.solution %}
+                                <div class="cs-section">
+                                    <h4><i data-lucide="check-circle"></i> Solution</h4>
+                                    <p>{{ study.solution }}</p>
+                                </div>
+                                {% endif %}
+
+                                {% if study.impact %}
+                                <div class="cs-section">
+                                    <h4><i data-lucide="trending-up"></i> Impact</h4>
+                                    <p>{{ study.impact }}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="til-content">
+                                {{ study.content | safe }}
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; <span id="year"></span> Sai Prasad Padhy. All rights reserved. <a href="{{ url_for('auth.login') }}"
+                    style="opacity: 0.3; font-size: 0.8rem; margin-left: 10px;">Admin</a></p>
+            <div class="footer-socials">
+                <a href="#"><i data-lucide="linkedin"></i></a>
+                <a href="#"><i data-lucide="github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        lucide.createIcons();
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>

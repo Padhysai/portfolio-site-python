@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New TIL | Admin</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <style>
+        .form-container {
+            max-width: 1000px;
+            /* Wider for editor */
+            margin: 120px auto 60px;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* SimpleMDE Dark Mode Overrides */
+        .editor-toolbar {
+            background-color: #1e293b;
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .editor-toolbar a {
+            color: #fff !important;
+        }
+
+        .editor-toolbar a.active,
+        .editor-toolbar a:hover {
+            background-color: rgba(56, 189, 248, 0.1);
+            border-color: var(--primary);
+        }
+
+        .CodeMirror {
+            background-color: rgba(15, 23, 42, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #f1f5f9;
+        }
+
+        .CodeMirror-cursor {
+            border-left: 1px solid #fff;
+        }
+
+        .editor-preview {
+            background-color: #0f172a;
+            color: #f1f5f9;
+        }
+
+        .editor-statusbar {
+            color: #94a3b8;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 8px;
+            color: #0f172a;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-glow"></div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="{{ url_for('main.index') }}" class="logo">SP<span class="accent">.</span></a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('auth.logout') }}" style="color: #ef4444;">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="form-container">
+            <h1 class="section-title">Create Case Study</h1>
+            <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <div class="form-group">
+                    <label for="title">Case Study Title</label>
+                    <input type="text" id="title" name="title" required
+                        placeholder="e.g. Migrating 40TB Data Warehouse to Lakehouse">
+                </div>
+
+                <div class="form-group">
+                    <label for="tags">Tags (comma separated)</label>
+                    <input type="text" id="tags" name="tags" placeholder="Migration, Databricks, Cost Optimization">
+                </div>
+
+                <div class="form-group">
+                    <label for="challenge">The Challenge</label>
+                    <textarea id="challenge" name="challenge" class="simple-textarea" rows="4"
+                        placeholder="What was the problem? (e.g. High latency, cost inefficiency...)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="solution">The Solution</label>
+                    <textarea id="solution" name="solution" class="simple-textarea" rows="4"
+                        placeholder="How did you solve it? (Architecture, tech stack...)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="impact">The Impact</label>
+                    <textarea id="impact" name="impact" class="simple-textarea" rows="4"
+                        placeholder="Quantifiable results (e.g. 50% cost reduction, 2x speedup...)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="content">Additional Content / Diagrams</label>
+                    <textarea id="content" name="content"
+                        placeholder="Detailed walkthrough, diagrams, code snippets..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Publish Case Study</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        var simplemde = new SimpleMDE({
+            element: document.getElementById("content"),
+            spellChecker: false,
+            placeholder: "Write your TIL in Markdown...",
+            toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "image", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
+        });
+    </script>
+</body>
+
+</html>

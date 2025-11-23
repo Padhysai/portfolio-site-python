@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sai Prasad Padhy | Senior Data Engineer</title>
+    <meta name="description"
+        content="Portfolio of Sai Prasad Padhy, a Senior Data Engineer with 6+ years of experience in Big Data, ETL, and Cloud Solutions.">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="background-glow"></div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">SP<span class="accent">.</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#case-studies">Case Studies</a></li>
+                {% if session.get('logged_in') %}
+                <li><a href="{{ url_for('admin.dashboard') }}">Admin</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('static', filename='Sai_Prasad_Padhy_Resume.pdf') }}" class="btn-primary"
+                        download>Download
+                        Resume</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <span class="badge">Senior Data Engineer</span>
+                    <h1>Building Scalable <br><span class="text-gradient">Big Data & Gen AI Solutions</span></h1>
+                    <p>6+ years of experience architecting multi-terabyte data pipelines, ETL processes, and data
+                        warehouse solutions for Fortune 100 companies.</p>
+                    <div class="hero-btns">
+                        <a href="https://calendly.com/saiprasadpadhy/30min" class="btn-primary" target="_blank">Book
+                            Consultation</a>
+                        <a href="#experience" class="btn-secondary">View Work</a>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+                        <a href="#" aria-label="GitHub"><i data-lucide="github"></i></a>
+                        <a href="mailto:saiprasadpadhy@gmail.com" aria-label="Email"><i data-lucide="mail"></i></a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <pre><code><span class="keyword">class</span> <span class="class-name">DataEngineer</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="self">self</span>):
+        <span class="self">self</span>.name = <span class="string">"Sai Prasad Padhy"</span>
+        <span class="self">self</span>.role = <span class="string">"Senior Data Engineer"</span>
+        <span class="self">self</span>.stack = [
+            <span class="string">"Python"</span>, <span class="string">"Spark"</span>,
+            <span class="string">"Databricks"</span>, <span class="string">"AWS"</span>
+        ]
+
+    <span class="keyword">def</span> <span class="function">build_pipeline</span>(<span class="self">self</span>):
+        <span class="return">return</span> <span class="string">"Scalable & Robust"</span></code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>I am a passionate Data Engineer with over 6 years of experience in building large-scale data
+                            pipelines and data warehouse solutions. My expertise lies in utilizing technologies like
+                            <strong>Python, SQL, Spark, Databricks, and ADF</strong> to develop multi-terabyte scalable
+                            big data solutions. Recently, I have been focusing on end-to-end data engineering for
+                            <strong>Generative AI and RAG pipelines</strong>, enabling intelligent data retrieval and
+                            processing.
+                        </p>
+                        <p>Currently working as a Senior Data Engineer at Nagarro, I focus on designing comprehensive
+                            data quality metrics and optimizing data pipelines to reduce operational costs while
+                            maintaining performance.</p>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>6+</h3>
+                            <p>Years Experience</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>100+</h3>
+                            <p>Systems Integrated</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Multi-TB</h3>
+                            <p>Data Processed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <div class="container">
+                <h2 class="section-title">Technical Arsenal</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Languages & Core</h3>
+                        <div class="tags">
+                            <span>Python</span>
+                            <span>SQL</span>
+                            <span>Data Modelling</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Big Data</h3>
+                        <div class="tags">
+                            <span>Apache Spark</span>
+                            <span>PySpark</span>
+                            <span>Spark SQL</span>
+                            <span>Hadoop</span>
+                            <span>Hive</span>
+                            <span>Impala</span>
+                            <span>YARN</span>
+                            <span>Kubernetes</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Cloud & Storage</h3>
+                        <div class="tags">
+                            <span>Databricks</span>
+                            <span>ADF (Data Factory)</span>
+                            <span>ADLS</span>
+                            <span>Amazon S3</span>
+                            <span>Delta Lake</span>
+                            <span>Synapse</span>
+                            <span>AWS DMS</span>
+                            <span>AWS Glue</span>
+                            <span>AWS Lambda</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Streaming & Orchestration</h3>
+                        <div class="tags">
+                            <span>Kafka</span>
+                            <span>Spark Structured Streaming</span>
+                            <span>Auto Loader</span>
+                            <span>Airflow</span>
+                            <span>Redwood</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Generative AI & LLMs</h3>
+                        <div class="tags">
+                            <span>RAG Pipelines</span>
+                            <span>Vector Databases</span>
+                            <span>LangChain</span>
+                            <span>LLM Ops</span>
+                            <span>Prompt Engineering</span>
+                            <span>Embeddings</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="section">
+            <div class="container">
+                <h2 class="section-title">Certifications</h2>
+                <div class="cert-grid">
+                    <div class="cert-card">
+                        <div class="cert-icon"><i data-lucide="award"></i></div>
+                        <h3>AWS Certified Solutions Architect</h3>
+                        <p>Associate</p>
+                    </div>
+                    <div class="cert-card">
+                        <div class="cert-icon"><i data-lucide="database"></i></div>
+                        <h3>Databricks Certified Data Engineer</h3>
+                        <p>Professional</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="section">
+            <div class="container">
+                <h2 class="section-title">Professional Journey</h2>
+                <div class="timeline">
+                    <!-- Nagarro -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">Apr 2025 - Present</div>
+                        <div class="timeline-content">
+                            <h3>Senior Data Engineer</h3>
+                            <h4>Nagarro, Hyderabad</h4>
+                            <ul>
+                                <li>Designed and implemented comprehensive data quality metrics for 100+ source systems
+                                    (DB, Files, Kafka).</li>
+                                <li>Built POCs on Lakebase and Lakeflow to enhance modern data platform architecture.
+                                </li>
+                                <li>Architected end-to-end RAG-based pipelines for Gen AI solutions, handling data
+                                    ingestion, chunking, embedding generation, and vector storage.</li>
+                                <li>Optimized existing pipelines resulting in a 50% reduction in operational costs.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Tech Mahindra -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">Jan 2022 - Mar 2025</div>
+                        <div class="timeline-content">
+                            <h3>Senior Data Engineer</h3>
+                            <h4>Tech Mahindra, Hyderabad</h4>
+                            <ul>
+                                <li>Led a team of 2 Data Engineers in designing and optimizing ETL processes.</li>
+                                <li>Developed automated systems for customer procurement data aggregation.</li>
+                                <li>Integrated data from AWS, Azure, SQL Server, and SAP (JSON, CSV, Parquet).</li>
+                                <li>Implemented Spark optimizations (caching, broadcast joins) reducing processing time
+                                    by 20% for 3M daily records.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Cognizant -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">Jun 2019 - Jan 2022</div>
+                        <div class="timeline-content">
+                            <h3>Data Engineer</h3>
+                            <h4>Cognizant, Chennai</h4>
+                            <ul>
+                                <li>Migrated legacy on-premise processes to Cloud (Spark), reducing processing time by
+                                    20%.</li>
+                                <li>Developed ADF pipelines for daily migration of 40M records from MS Dynamics to SQL
+                                    Server.</li>
+                                <li>Optimized Spark jobs for a 15TB dataset (12B records), improving run times by 20%.
+                                </li>
+                                <li>Created Power Automate & Azure Functions for data ingestion.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="section">
+            <div class="container">
+                <h2 class="section-title">Education</h2>
+                <div class="education-grid">
+                    <div class="edu-card">
+                        <h3>B.Tech in Mechanical Engineering</h3>
+                        <p class="institution">Lovely Professional University, Punjab</p>
+                        <p class="year">2015 - 2019</p>
+                    </div>
+                    <div class="edu-card">
+                        <h3>Senior Secondary</h3>
+                        <p class="institution">Sri Chaitanya Junior College, Hyderabad</p>
+                        <p class="year">2013 - 2015</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Studies Section -->
+        <section id="case-studies" class="section">
+            <div class="container">
+                <h2 class="section-title">Project Case Studies</h2>
+                <div class="blog-grid">
+                    {% for study in case_studies[:3] %}
+                    <article class="blog-card">
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">{{ study.date }}</span>
+                                {% if study.tags %}
+                                <span class="blog-tag">{{ study.tags[0] }}</span>
+                                {% endif %}
+                            </div>
+                            <h3>{{ study.title }}</h3>
+                            {% if study.challenge %}
+                            <p class="study-snippet"><strong>Challenge:</strong> {{ study.challenge[:100] }}...</p>
+                            {% endif %}
+                            <a href="{{ url_for('main.case_studies_page') }}" class="read-more">View Case Study <i
+                                    data-lucide="arrow-right"></i></a>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container contact-container">
+                <h2 class="section-title">Let's Connect</h2>
+                <p class="contact-subtitle">Open for opportunities in Data Engineering and Big Data Architecture.</p>
+
+                <div class="contact-cards">
+                    <a href="tel:+919550003197" class="contact-card">
+                        <i data-lucide="phone"></i>
+                        <span>+91-9550003197</span>
+                    </a>
+                    <a href="mailto:saiprasadpadhy@gmail.com" class="contact-card">
+                        <i data-lucide="mail"></i>
+                        <span>saiprasadpadhy@gmail.com</span>
+                    </a>
+                    <div class="contact-card">
+                        <i data-lucide="map-pin"></i>
+                        <span>Hyderabad, India</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; <span id="year"></span> Sai Prasad Padhy. All rights reserved. <a href="{{ url_for('auth.login') }}"
+                    style="opacity: 0.3; font-size: 0.8rem; margin-left: 10px;">Admin</a></p>
+            <div class="footer-socials">
+                <a href="#"><i data-lucide="linkedin"></i></a>
+                <a href="#"><i data-lucide="github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
